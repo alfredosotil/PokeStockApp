@@ -1,0 +1,50 @@
+{
+  "annotations": {
+    "changelogDate": "20250915172030"
+  },
+  "applications": ["PokeStockApp"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "source",
+      "fieldType": "MarketSource",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "POKEMON_TCG_API,TCGPLAYER"
+    },
+    {
+      "fieldName": "currency",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "priceLow",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "priceMid",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "priceHigh",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "lastUpdated",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "name": "MarketPrice",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "card",
+      "relationshipName": "card",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

@@ -1,0 +1,30 @@
+{
+  "pokeStockApp": {
+    "marketPrice": {
+      "home": {
+        "title": "Market Prices",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Market Price",
+        "createOrEditLabel": "Crear o editar Market Price",
+        "notFound": "Ningún Market Prices encontrado"
+      },
+      "created": "Un nuevo Market Price ha sido creado con el identificador {{ param }}",
+      "updated": "Un Market Price ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Market Price ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Market Price {{ id }}?"
+      },
+      "detail": {
+        "title": "Market Price"
+      },
+      "id": "ID",
+      "source": "Source",
+      "currency": "Currency",
+      "priceLow": "Price Low",
+      "priceMid": "Price Mid",
+      "priceHigh": "Price High",
+      "lastUpdated": "Last Updated",
+      "card": "Card"
+    }
+  }
+}

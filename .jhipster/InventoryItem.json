@@ -1,0 +1,64 @@
+{
+  "annotations": {
+    "changelogDate": "20250915171930"
+  },
+  "applications": ["PokeStockApp"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "quantity",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min"],
+      "fieldValidateRulesMin": "1"
+    },
+    {
+      "fieldName": "condition",
+      "fieldType": "CardCondition",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "MINT,NEAR_MINT,EXCELLENT,VERY_GOOD,GOOD,LIGHT_PLAY,PLAYED,POOR"
+    },
+    {
+      "fieldName": "language",
+      "fieldType": "CardLanguage",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "EN,JP,ES,FR,DE,IT,PT,ZH,KR"
+    },
+    {
+      "fieldName": "graded",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "grade",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "purchasePrice",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    }
+  ],
+  "name": "InventoryItem",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "card",
+      "relationshipName": "card",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "displayName",
+      "otherEntityName": "pokeUser",
+      "relationshipName": "owner",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

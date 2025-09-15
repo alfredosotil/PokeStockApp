@@ -1,0 +1,32 @@
+{
+  "pokeStockApp": {
+    "inventoryItem": {
+      "home": {
+        "title": "Inventory Items",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Inventory Item",
+        "createOrEditLabel": "Crear o editar Inventory Item",
+        "notFound": "Ningún Inventory Items encontrado"
+      },
+      "created": "Un nuevo Inventory Item ha sido creado con el identificador {{ param }}",
+      "updated": "Un Inventory Item ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Inventory Item ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Inventory Item {{ id }}?"
+      },
+      "detail": {
+        "title": "Inventory Item"
+      },
+      "id": "ID",
+      "quantity": "Quantity",
+      "condition": "Condition",
+      "language": "Language",
+      "graded": "Graded",
+      "grade": "Grade",
+      "purchasePrice": "Purchase Price",
+      "notes": "Notes",
+      "card": "Card",
+      "owner": "Owner"
+    }
+  }
+}

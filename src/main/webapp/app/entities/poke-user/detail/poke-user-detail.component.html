@@ -1,0 +1,42 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (pokeUser(); as pokeUserRef) {
+      <div>
+        <h2 data-cy="pokeUserDetailsHeading"><span jhiTranslate="pokeStockApp.pokeUser.detail.title">Poke User</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ pokeUserRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.pokeUser.displayName">Display Name</span></dt>
+          <dd>
+            <span>{{ pokeUserRef.displayName }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.pokeUser.country">Country</span></dt>
+          <dd>
+            <span>{{ pokeUserRef.country }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.pokeUser.user">User</span></dt>
+          <dd>
+            <span>{{ pokeUserRef.user?.login }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Volver</span>
+        </button>
+
+        <button type="button" [routerLink]="['/poke-user', pokeUserRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

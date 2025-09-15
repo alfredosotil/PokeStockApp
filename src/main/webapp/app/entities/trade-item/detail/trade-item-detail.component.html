@@ -1,0 +1,54 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (tradeItem(); as tradeItemRef) {
+      <div>
+        <h2 data-cy="tradeItemDetailsHeading"><span jhiTranslate="pokeStockApp.tradeItem.detail.title">Trade Item</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ tradeItemRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.tradeItem.quantity">Quantity</span></dt>
+          <dd>
+            <span>{{ tradeItemRef.quantity }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.tradeItem.side">Side</span></dt>
+          <dd>
+            <span>{{ tradeItemRef.side }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.tradeItem.trade">Trade</span></dt>
+          <dd>
+            @if (tradeItem()!.trade) {
+              <div>
+                <a [routerLink]="['/trade', tradeItem()!.trade?.id, 'view']">{{ tradeItemRef.trade?.id }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.tradeItem.card">Card</span></dt>
+          <dd>
+            @if (tradeItem()!.card) {
+              <div>
+                <a [routerLink]="['/card', tradeItem()!.card?.id, 'view']">{{ tradeItemRef.card?.name }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Volver</span>
+        </button>
+
+        <button type="button" [routerLink]="['/trade-item', tradeItemRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

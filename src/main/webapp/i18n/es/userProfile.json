@@ -1,0 +1,29 @@
+{
+  "pokeStockApp": {
+    "userProfile": {
+      "home": {
+        "title": "User Profiles",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo User Profile",
+        "createOrEditLabel": "Crear o editar User Profile",
+        "notFound": "Ningún User Profiles encontrado"
+      },
+      "created": "Un nuevo User Profile ha sido creado con el identificador {{ param }}",
+      "updated": "Un User Profile ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un User Profile ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar User Profile {{ id }}?"
+      },
+      "detail": {
+        "title": "User Profile"
+      },
+      "id": "ID",
+      "bio": "Bio",
+      "location": "Location",
+      "favoriteSet": "Favorite Set",
+      "playstyle": "Playstyle",
+      "avatar": "Avatar",
+      "user": "User"
+    }
+  }
+}

@@ -1,0 +1,130 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-card-heading" data-cy="CardCreateUpdateHeading" jhiTranslate="pokeStockApp.card.home.createOrEditLabel">
+        Crear o editar Card
+      </h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="pokeStockApp.card.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        @let tcgIdRef = editForm.get('tcgId')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_tcgId" jhiTranslate="pokeStockApp.card.tcgId">Tcg Id</label>
+          <input type="text" class="form-control" name="tcgId" id="field_tcgId" data-cy="tcgId" formControlName="tcgId" />
+          @if (tcgIdRef.invalid && (tcgIdRef.dirty || tcgIdRef.touched)) {
+            <div>
+              @if (editForm.get('tcgId')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let setCodeRef = editForm.get('setCode')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_setCode" jhiTranslate="pokeStockApp.card.setCode">Set Code</label>
+          <input type="text" class="form-control" name="setCode" id="field_setCode" data-cy="setCode" formControlName="setCode" />
+          @if (setCodeRef.invalid && (setCodeRef.dirty || setCodeRef.touched)) {
+            <div>
+              @if (editForm.get('setCode')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let numberRef = editForm.get('number')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_number" jhiTranslate="pokeStockApp.card.number">Number</label>
+          <input type="text" class="form-control" name="number" id="field_number" data-cy="number" formControlName="number" />
+          @if (numberRef.invalid && (numberRef.dirty || numberRef.touched)) {
+            <div>
+              @if (editForm.get('number')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let nameRef = editForm.get('name')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_name" jhiTranslate="pokeStockApp.card.name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+          @if (nameRef.invalid && (nameRef.dirty || nameRef.touched)) {
+            <div>
+              @if (editForm.get('name')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_rarity" jhiTranslate="pokeStockApp.card.rarity">Rarity</label>
+          <input type="text" class="form-control" name="rarity" id="field_rarity" data-cy="rarity" formControlName="rarity" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_superType" jhiTranslate="pokeStockApp.card.superType">Super Type</label>
+          <input type="text" class="form-control" name="superType" id="field_superType" data-cy="superType" formControlName="superType" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_types" jhiTranslate="pokeStockApp.card.types">Types</label>
+          <input type="text" class="form-control" name="types" id="field_types" data-cy="types" formControlName="types" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_imageUrl" jhiTranslate="pokeStockApp.card.imageUrl">Image Url</label>
+          <input type="text" class="form-control" name="imageUrl" id="field_imageUrl" data-cy="imageUrl" formControlName="imageUrl" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_legalities" jhiTranslate="pokeStockApp.card.legalities">Legalities</label>
+          <input
+            type="text"
+            class="form-control"
+            name="legalities"
+            id="field_legalities"
+            data-cy="legalities"
+            formControlName="legalities"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_set" jhiTranslate="pokeStockApp.card.set">Set</label>
+          <select class="form-control" id="field_set" data-cy="set" name="set" formControlName="set" [compareWith]="compareCardSet">
+            <option [ngValue]="null"></option>
+            @for (cardSetOption of cardSetsSharedCollection; track $index) {
+              <option [ngValue]="cardSetOption">{{ cardSetOption.code }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Guardar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

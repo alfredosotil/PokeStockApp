@@ -1,0 +1,9 @@
+export enum NotificationType {
+  PRICE_ALERT = 'PRICE_ALERT',
+
+  TRADE_PROPOSAL = 'TRADE_PROPOSAL',
+
+  TRADE_STATUS = 'TRADE_STATUS',
+
+  SYSTEM = 'SYSTEM',
+}

@@ -1,0 +1,42 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (cardSet(); as cardSetRef) {
+      <div>
+        <h2 data-cy="cardSetDetailsHeading"><span jhiTranslate="pokeStockApp.cardSet.detail.title">Card Set</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ cardSetRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.cardSet.code">Code</span></dt>
+          <dd>
+            <span>{{ cardSetRef.code }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.cardSet.name">Name</span></dt>
+          <dd>
+            <span>{{ cardSetRef.name }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.cardSet.releaseDate">Release Date</span></dt>
+          <dd>
+            <span>{{ cardSetRef.releaseDate | formatMediumDatetime }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Volver</span>
+        </button>
+
+        <button type="button" [routerLink]="['/card-set', cardSetRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

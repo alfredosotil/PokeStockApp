@@ -1,0 +1,62 @@
+{
+  "annotations": {
+    "changelogDate": "20250915171830"
+  },
+  "applications": ["PokeStockApp"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "tcgId",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique"]
+    },
+    {
+      "fieldName": "setCode",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "number",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "rarity",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "superType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "types",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "imageUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "legalities",
+      "fieldType": "String"
+    }
+  ],
+  "name": "Card",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "code",
+      "otherEntityName": "cardSet",
+      "relationshipName": "set",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

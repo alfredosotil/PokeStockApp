@@ -1,0 +1,118 @@
+application {
+  config {
+    baseName PokeStockApp
+    applicationType monolith
+    packageName com.poke.app
+    serverPort 8080
+    authenticationType jwt
+    devDatabaseType postgresql
+    prodDatabaseType postgresql
+    buildTool maven
+    clientFramework angular
+    enableTranslation true
+    nativeLanguage es
+    languages [es, en]
+    enableSwaggerCodegen true
+    testFrameworks [cucumber, gatling]
+    serviceDiscoveryType no
+    websocket spring-websocket
+  }
+  entities *
+}
+
+enum CardCondition { MINT, NEAR_MINT, EXCELLENT, VERY_GOOD, GOOD, LIGHT_PLAY, PLAYED, POOR }
+enum CardLanguage { EN, JP, ES, FR, DE, IT, PT, ZH, KR }
+enum TradeStatus { PROPOSED, ACCEPTED, REJECTED, CANCELLED, COMPLETED }
+enum MarketSource { POKEMON_TCG_API, TCGPLAYER }
+enum NotificationType { PRICE_ALERT, TRADE_PROPOSAL, TRADE_STATUS, SYSTEM }
+
+entity PokeUser {
+  displayName String required
+  country String
+}
+
+entity UserProfile {
+  bio String maxlength(1000)
+  location String
+  favoriteSet String
+  playstyle String
+  avatar ImageBlob
+}
+
+entity CardSet {
+  code String required unique
+  name String required
+  releaseDate Instant
+}
+
+entity Card {
+  tcgId String required unique, // id global proveedor (p.ej. pokemon-tcg-api)
+  setCode String required,
+  number String required,
+  name String required,
+  rarity String,
+  superType String,
+  types String,
+  imageUrl String,
+  legalities String
+}
+
+entity InventoryItem {
+  quantity Integer required min(1)
+  condition CardCondition required
+  language CardLanguage required
+  graded Boolean required
+  grade String // PSA 10, BGS 9.5 etc
+  purchasePrice BigDecimal
+  notes String
+}
+
+entity MarketPrice {
+  source MarketSource required
+  currency String required
+  priceLow BigDecimal
+  priceMid BigDecimal
+  priceHigh BigDecimal
+  lastUpdated Instant required
+}
+
+entity Trade {
+  status TradeStatus required
+  message String
+  createdAt Instant required
+  updatedAt Instant
+}
+
+entity TradeItem {
+  quantity Integer required min(1)
+  side String required // "OFFER" o "REQUEST"
+}
+
+entity Notification {
+  type NotificationType required
+  title String required
+  message TextBlob required
+  read Boolean required
+  createdAt Instant required
+  linkUrl String
+}
+
+relationship OneToOne {
+  PokeUser{user(login)} to User with builtInEntity
+  UserProfile{user(login)} to User with builtInEntity
+}
+
+relationship ManyToOne {
+  Card{set(code)} to CardSet
+  InventoryItem{card(name)} to Card
+  InventoryItem{owner(displayName)} to PokeUser
+  MarketPrice{card(name)} to Card
+  Trade{proposer(displayName)} to PokeUser
+  TradeItem{trade} to Trade
+  TradeItem{card(name)} to Card
+  Notification{recipient(login)} to User with builtInEntity
+}
+
+paginate Card, CardSet, InventoryItem, MarketPrice, Notification with pagination
+service all with serviceClass
+dto * with mapstruct

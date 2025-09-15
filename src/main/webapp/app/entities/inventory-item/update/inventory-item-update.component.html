@@ -1,0 +1,162 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-inventory-item-heading"
+        data-cy="InventoryItemCreateUpdateHeading"
+        jhiTranslate="pokeStockApp.inventoryItem.home.createOrEditLabel"
+      >
+        Crear o editar Inventory Item
+      </h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="pokeStockApp.inventoryItem.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        @let quantityRef = editForm.get('quantity')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_quantity" jhiTranslate="pokeStockApp.inventoryItem.quantity">Quantity</label>
+          <input type="number" class="form-control" name="quantity" id="field_quantity" data-cy="quantity" formControlName="quantity" />
+          @if (quantityRef.invalid && (quantityRef.dirty || quantityRef.touched)) {
+            <div>
+              @if (editForm.get('quantity')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+              @if (editForm.get('quantity')?.errors?.min) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.min" [translateValues]="{ min: '1' }"
+                  >Este campo debe ser mayor que 1.</small
+                >
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('quantity')?.errors?.number"
+                jhiTranslate="entity.validation.number"
+                >Este campo debe ser un número.</small
+              >
+            </div>
+          }
+        </div>
+
+        @let conditionRef = editForm.get('condition')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_condition" jhiTranslate="pokeStockApp.inventoryItem.condition">Condition</label>
+          <select class="form-control" name="condition" formControlName="condition" id="field_condition" data-cy="condition">
+            <option [ngValue]="null">{{ 'pokeStockApp.CardCondition.null' | translate }}</option>
+            @for (cardCondition of cardConditionValues; track $index) {
+              <option [value]="cardCondition">{{ 'pokeStockApp.CardCondition.' + cardCondition | translate }}</option>
+            }
+          </select>
+          @if (conditionRef.invalid && (conditionRef.dirty || conditionRef.touched)) {
+            <div>
+              @if (editForm.get('condition')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let languageRef = editForm.get('language')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_language" jhiTranslate="pokeStockApp.inventoryItem.language">Language</label>
+          <select class="form-control" name="language" formControlName="language" id="field_language" data-cy="language">
+            <option [ngValue]="null">{{ 'pokeStockApp.CardLanguage.null' | translate }}</option>
+            @for (cardLanguage of cardLanguageValues; track $index) {
+              <option [value]="cardLanguage">{{ 'pokeStockApp.CardLanguage.' + cardLanguage | translate }}</option>
+            }
+          </select>
+          @if (languageRef.invalid && (languageRef.dirty || languageRef.touched)) {
+            <div>
+              @if (editForm.get('language')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let gradedRef = editForm.get('graded')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_graded" jhiTranslate="pokeStockApp.inventoryItem.graded">Graded</label>
+          <input type="checkbox" class="form-check" name="graded" id="field_graded" data-cy="graded" formControlName="graded" />
+          @if (gradedRef.invalid && (gradedRef.dirty || gradedRef.touched)) {
+            <div>
+              @if (editForm.get('graded')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_grade" jhiTranslate="pokeStockApp.inventoryItem.grade">Grade</label>
+          <input type="text" class="form-control" name="grade" id="field_grade" data-cy="grade" formControlName="grade" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_purchasePrice" jhiTranslate="pokeStockApp.inventoryItem.purchasePrice">Purchase Price</label>
+          <input
+            type="number"
+            class="form-control"
+            name="purchasePrice"
+            id="field_purchasePrice"
+            data-cy="purchasePrice"
+            formControlName="purchasePrice"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_notes" jhiTranslate="pokeStockApp.inventoryItem.notes">Notes</label>
+          <input type="text" class="form-control" name="notes" id="field_notes" data-cy="notes" formControlName="notes" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_card" jhiTranslate="pokeStockApp.inventoryItem.card">Card</label>
+          <select class="form-control" id="field_card" data-cy="card" name="card" formControlName="card" [compareWith]="compareCard">
+            <option [ngValue]="null"></option>
+            @for (cardOption of cardsSharedCollection; track $index) {
+              <option [ngValue]="cardOption">{{ cardOption.name }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_owner" jhiTranslate="pokeStockApp.inventoryItem.owner">Owner</label>
+          <select
+            class="form-control"
+            id="field_owner"
+            data-cy="owner"
+            name="owner"
+            formControlName="owner"
+            [compareWith]="comparePokeUser"
+          >
+            <option [ngValue]="null"></option>
+            @for (pokeUserOption of pokeUsersSharedCollection; track $index) {
+              <option [ngValue]="pokeUserOption">{{ pokeUserOption.displayName }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Guardar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

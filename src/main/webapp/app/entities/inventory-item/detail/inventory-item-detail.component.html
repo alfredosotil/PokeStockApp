@@ -1,0 +1,90 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (inventoryItem(); as inventoryItemRef) {
+      <div>
+        <h2 data-cy="inventoryItemDetailsHeading"><span jhiTranslate="pokeStockApp.inventoryItem.detail.title">Inventory Item</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ inventoryItemRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.inventoryItem.quantity">Quantity</span></dt>
+          <dd>
+            <span>{{ inventoryItemRef.quantity }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.inventoryItem.condition">Condition</span></dt>
+          <dd>
+            <span [jhiTranslate]="'pokeStockApp.CardCondition.' + (inventoryItemRef.condition ?? 'null')">{{
+              {
+                null: '',
+                MINT: 'MINT',
+                NEAR_MINT: 'NEAR_MINT',
+                EXCELLENT: 'EXCELLENT',
+                VERY_GOOD: 'VERY_GOOD',
+                GOOD: 'GOOD',
+                LIGHT_PLAY: 'LIGHT_PLAY',
+                PLAYED: 'PLAYED',
+                POOR: 'POOR',
+              }[inventoryItemRef.condition ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.inventoryItem.language">Language</span></dt>
+          <dd>
+            <span [jhiTranslate]="'pokeStockApp.CardLanguage.' + (inventoryItemRef.language ?? 'null')">{{
+              { null: '', EN: 'EN', JP: 'JP', ES: 'ES', FR: 'FR', DE: 'DE', IT: 'IT', PT: 'PT', ZH: 'ZH', KR: 'KR' }[
+                inventoryItemRef.language ?? 'null'
+              ]
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.inventoryItem.graded">Graded</span></dt>
+          <dd>
+            <span>{{ inventoryItemRef.graded }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.inventoryItem.grade">Grade</span></dt>
+          <dd>
+            <span>{{ inventoryItemRef.grade }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.inventoryItem.purchasePrice">Purchase Price</span></dt>
+          <dd>
+            <span>{{ inventoryItemRef.purchasePrice }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.inventoryItem.notes">Notes</span></dt>
+          <dd>
+            <span>{{ inventoryItemRef.notes }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.inventoryItem.card">Card</span></dt>
+          <dd>
+            @if (inventoryItem()!.card) {
+              <div>
+                <a [routerLink]="['/card', inventoryItem()!.card?.id, 'view']">{{ inventoryItemRef.card?.name }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.inventoryItem.owner">Owner</span></dt>
+          <dd>
+            @if (inventoryItem()!.owner) {
+              <div>
+                <a [routerLink]="['/poke-user', inventoryItem()!.owner?.id, 'view']">{{ inventoryItemRef.owner?.displayName }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Volver</span>
+        </button>
+
+        <button type="button" [routerLink]="['/inventory-item', inventoryItemRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

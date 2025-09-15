@@ -1,0 +1,26 @@
+{
+  "pokeStockApp": {
+    "pokeUser": {
+      "home": {
+        "title": "Poke Users",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Poke User",
+        "createOrEditLabel": "Crear o editar Poke User",
+        "notFound": "Ningún Poke Users encontrado"
+      },
+      "created": "Un nuevo Poke User ha sido creado con el identificador {{ param }}",
+      "updated": "Un Poke User ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Poke User ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Poke User {{ id }}?"
+      },
+      "detail": {
+        "title": "Poke User"
+      },
+      "id": "ID",
+      "displayName": "Display Name",
+      "country": "Country",
+      "user": "User"
+    }
+  }
+}

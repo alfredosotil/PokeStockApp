@@ -1,0 +1,23 @@
+services:
+  jhipster:
+    image: jhipster/jhipster:latest
+    container_name: jhipster-gen
+    working_dir: /home/jhipster/app
+    # Mantén el contenedor encendido para poder entrar y ejecutar comandos interactivos
+    command: ["tail", "-f", "/dev/null"]
+    volumes:
+      - ./:/home/jhipster/app
+      # Caches opcionales para acelerar builds (se crean como volúmenes de Docker)
+      - jh_m2:/home/jhipster/.m2
+      - jh_npm:/home/jhipster/.npm
+      - jh_gradle:/home/jhipster/.gradle
+      # (Opcional) Identidad de git; comenta/borra en Windows si te da problemas de ruta
+      - ${USERPROFILE}/.gitconfigPersonal:/home/jhipster/.gitconfig:ro
+      - ${USERPROFILE}/.m2/settings-public.xml:/home/jhipster/.m2/settings.xml:ro
+    # (Opcional, en Linux/macOS) mapear tu UID/GID para evitar permisos root en los archivos generados
+    # user: "${UID:-1000}:${GID:-1000}"
+
+volumes:
+  jh_m2:
+  jh_npm:
+  jh_gradle:

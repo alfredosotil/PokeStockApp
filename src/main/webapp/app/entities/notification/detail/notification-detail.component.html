@@ -1,0 +1,62 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (notification(); as notificationRef) {
+      <div>
+        <h2 data-cy="notificationDetailsHeading"><span jhiTranslate="pokeStockApp.notification.detail.title">Notification</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ notificationRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.notification.type">Type</span></dt>
+          <dd>
+            <span [jhiTranslate]="'pokeStockApp.NotificationType.' + (notificationRef.type ?? 'null')">{{
+              { null: '', PRICE_ALERT: 'PRICE_ALERT', TRADE_PROPOSAL: 'TRADE_PROPOSAL', TRADE_STATUS: 'TRADE_STATUS', SYSTEM: 'SYSTEM' }[
+                notificationRef.type ?? 'null'
+              ]
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.notification.title">Title</span></dt>
+          <dd>
+            <span>{{ notificationRef.title }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.notification.message">Message</span></dt>
+          <dd>
+            <span>{{ notificationRef.message }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.notification.read">Read</span></dt>
+          <dd>
+            <span>{{ notificationRef.read }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.notification.createdAt">Created At</span></dt>
+          <dd>
+            <span>{{ notificationRef.createdAt | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.notification.linkUrl">Link Url</span></dt>
+          <dd>
+            <span>{{ notificationRef.linkUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.notification.recipient">Recipient</span></dt>
+          <dd>
+            <span>{{ notificationRef.recipient?.login }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Volver</span>
+        </button>
+
+        <button type="button" [routerLink]="['/notification', notificationRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

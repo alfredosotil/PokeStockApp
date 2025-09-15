@@ -1,0 +1,64 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (marketPrice(); as marketPriceRef) {
+      <div>
+        <h2 data-cy="marketPriceDetailsHeading"><span jhiTranslate="pokeStockApp.marketPrice.detail.title">Market Price</span></h2>
+
+        <hr />
+
+        <jhi-alert-error />
+
+        <jhi-alert />
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ marketPriceRef.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.marketPrice.source">Source</span></dt>
+          <dd>
+            <span [jhiTranslate]="'pokeStockApp.MarketSource.' + (marketPriceRef.source ?? 'null')">{{
+              { null: '', POKEMON_TCG_API: 'POKEMON_TCG_API', TCGPLAYER: 'TCGPLAYER' }[marketPriceRef.source ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.marketPrice.currency">Currency</span></dt>
+          <dd>
+            <span>{{ marketPriceRef.currency }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.marketPrice.priceLow">Price Low</span></dt>
+          <dd>
+            <span>{{ marketPriceRef.priceLow }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.marketPrice.priceMid">Price Mid</span></dt>
+          <dd>
+            <span>{{ marketPriceRef.priceMid }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.marketPrice.priceHigh">Price High</span></dt>
+          <dd>
+            <span>{{ marketPriceRef.priceHigh }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.marketPrice.lastUpdated">Last Updated</span></dt>
+          <dd>
+            <span>{{ marketPriceRef.lastUpdated | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="pokeStockApp.marketPrice.card">Card</span></dt>
+          <dd>
+            @if (marketPrice()!.card) {
+              <div>
+                <a [routerLink]="['/card', marketPrice()!.card?.id, 'view']">{{ marketPriceRef.card?.name }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Volver</span>
+        </button>
+
+        <button type="button" [routerLink]="['/market-price', marketPriceRef.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

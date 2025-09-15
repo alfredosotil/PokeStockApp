@@ -1,0 +1,11 @@
+export enum TradeStatus {
+  PROPOSED = 'PROPOSED',
+
+  ACCEPTED = 'ACCEPTED',
+
+  REJECTED = 'REJECTED',
+
+  CANCELLED = 'CANCELLED',
+
+  COMPLETED = 'COMPLETED',
+}

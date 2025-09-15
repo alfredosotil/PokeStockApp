@@ -1,0 +1,26 @@
+{
+  "pokeStockApp": {
+    "cardSet": {
+      "home": {
+        "title": "Card Sets",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Card Set",
+        "createOrEditLabel": "Crear o editar Card Set",
+        "notFound": "Ningún Card Sets encontrado"
+      },
+      "created": "Un nuevo Card Set ha sido creado con el identificador {{ param }}",
+      "updated": "Un Card Set ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Card Set ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Card Set {{ id }}?"
+      },
+      "detail": {
+        "title": "Card Set"
+      },
+      "id": "ID",
+      "code": "Code",
+      "name": "Name",
+      "releaseDate": "Release Date"
+    }
+  }
+}

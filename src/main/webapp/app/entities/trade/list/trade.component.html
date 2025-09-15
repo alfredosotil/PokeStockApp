@@ -1,0 +1,132 @@
+<div>
+  <h2 id="page-heading" data-cy="TradeHeading">
+    <span jhiTranslate="pokeStockApp.trade.home.title">Trades</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="pokeStockApp.trade.home.refreshListLabel">Refrescar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-trade"
+        [routerLink]="['/trade/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="pokeStockApp.trade.home.createLabel">Crear nuevo Trade</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error />
+
+  <jhi-alert />
+
+  @if (trades().length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="pokeStockApp.trade.home.notFound">Ningún Trades encontrado</span>
+    </div>
+  } @else {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="status">
+              <div class="d-flex">
+                <span jhiTranslate="pokeStockApp.trade.status">Status</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="message">
+              <div class="d-flex">
+                <span jhiTranslate="pokeStockApp.trade.message">Message</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="createdAt">
+              <div class="d-flex">
+                <span jhiTranslate="pokeStockApp.trade.createdAt">Created At</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="updatedAt">
+              <div class="d-flex">
+                <span jhiTranslate="pokeStockApp.trade.updatedAt">Updated At</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="proposer.displayName">
+              <div class="d-flex">
+                <span jhiTranslate="pokeStockApp.trade.proposer">Proposer</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (trade of trades(); track trackId(trade)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/trade', trade.id, 'view']">{{ trade.id }}</a>
+              </td>
+              <td [jhiTranslate]="'pokeStockApp.TradeStatus.' + (trade.status ?? 'null')">
+                {{
+                  {
+                    null: '',
+                    PROPOSED: 'PROPOSED',
+                    ACCEPTED: 'ACCEPTED',
+                    REJECTED: 'REJECTED',
+                    CANCELLED: 'CANCELLED',
+                    COMPLETED: 'COMPLETED',
+                  }[trade.status ?? 'null']
+                }}
+              </td>
+              <td>{{ trade.message }}</td>
+              <td>{{ trade.createdAt | formatMediumDatetime }}</td>
+              <td>{{ trade.updatedAt | formatMediumDatetime }}</td>
+              <td>
+                @if (trade.proposer) {
+                  <div>
+                    <a [routerLink]="['/poke-user', trade.proposer.id, 'view']">{{ trade.proposer.displayName }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/trade', trade.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">Vista</span>
+                  </a>
+
+                  <a [routerLink]="['/trade', trade.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Editar</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(trade)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Eliminar</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

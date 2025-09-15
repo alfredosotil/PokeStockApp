@@ -1,0 +1,24 @@
+@if (cardSet) {
+  <form name="deleteForm" (ngSubmit)="confirmDelete(cardSet.id!)">
+    <div class="modal-header">
+      <h4 class="modal-title" data-cy="cardSetDeleteDialogHeading" jhiTranslate="entity.delete.title">Confirmar operación de borrado</h4>
+    </div>
+
+    <div class="modal-body">
+      <jhi-alert-error />
+      <p id="jhi-delete-cardSet-heading" jhiTranslate="pokeStockApp.cardSet.delete.question" [translateValues]="{ id: cardSet.id }">
+        ¿Seguro que quiere eliminar Card Set {{ cardSet.id }}?
+      </p>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancel()">
+        <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancelar</span>
+      </button>
+
+      <button id="jhi-confirm-delete-cardSet" data-cy="entityConfirmDeleteButton" type="submit" class="btn btn-danger">
+        <fa-icon icon="times"></fa-icon>&nbsp;<span jhiTranslate="entity.action.delete">Eliminar</span>
+      </button>
+    </div>
+  </form>
+}

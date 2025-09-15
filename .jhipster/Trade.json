@@ -1,0 +1,40 @@
+{
+  "annotations": {
+    "changelogDate": "20250915172130"
+  },
+  "applications": ["PokeStockApp"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "status",
+      "fieldType": "TradeStatus",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "PROPOSED,ACCEPTED,REJECTED,CANCELLED,COMPLETED"
+    },
+    {
+      "fieldName": "message",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createdAt",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "updatedAt",
+      "fieldType": "Instant"
+    }
+  ],
+  "name": "Trade",
+  "relationships": [
+    {
+      "otherEntityField": "displayName",
+      "otherEntityName": "pokeUser",
+      "relationshipName": "proposer",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

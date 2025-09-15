@@ -1,0 +1,129 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-user-profile-heading"
+        data-cy="UserProfileCreateUpdateHeading"
+        jhiTranslate="pokeStockApp.userProfile.home.createOrEditLabel"
+      >
+        Crear o editar User Profile
+      </h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="pokeStockApp.userProfile.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        @let bioRef = editForm.get('bio')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_bio" jhiTranslate="pokeStockApp.userProfile.bio">Bio</label>
+          <input type="text" class="form-control" name="bio" id="field_bio" data-cy="bio" formControlName="bio" />
+          @if (bioRef.invalid && (bioRef.dirty || bioRef.touched)) {
+            <div>
+              @if (editForm.get('bio')?.errors?.maxlength) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.maxlength" [translateValues]="{ max: '1000' }"
+                  >Este campo no puede superar más de 1000 caracteres.</small
+                >
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_location" jhiTranslate="pokeStockApp.userProfile.location">Location</label>
+          <input type="text" class="form-control" name="location" id="field_location" data-cy="location" formControlName="location" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_favoriteSet" jhiTranslate="pokeStockApp.userProfile.favoriteSet">Favorite Set</label>
+          <input
+            type="text"
+            class="form-control"
+            name="favoriteSet"
+            id="field_favoriteSet"
+            data-cy="favoriteSet"
+            formControlName="favoriteSet"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_playstyle" jhiTranslate="pokeStockApp.userProfile.playstyle">Playstyle</label>
+          <input type="text" class="form-control" name="playstyle" id="field_playstyle" data-cy="playstyle" formControlName="playstyle" />
+        </div>
+
+        @let avatarRef = editForm.get('avatar')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_avatar" jhiTranslate="pokeStockApp.userProfile.avatar">Avatar</label>
+          <div>
+            @if (avatarRef.value) {
+              <img
+                [src]="'data:' + editForm.get('avatarContentType')!.value + ';base64,' + avatarRef.value"
+                style="max-height: 100px"
+                alt="userProfile"
+              />
+            }
+            @if (avatarRef.value) {
+              <div class="form-text text-danger clearfix">
+                <span class="pull-start">{{ editForm.get('avatarContentType')!.value }}, {{ byteSize(avatarRef.value!) }}</span>
+                <button
+                  type="button"
+                  (click)="clearInputImage('avatar', 'avatarContentType', 'file_avatar')"
+                  class="btn btn-secondary btn-xs pull-end"
+                >
+                  <fa-icon icon="times"></fa-icon>
+                </button>
+              </div>
+            }
+            <input
+              type="file"
+              id="file_avatar"
+              data-cy="avatar"
+              (change)="setFileData($event, 'avatar', true)"
+              accept="image/*"
+              jhiTranslate="entity.action.addimage"
+            />
+          </div>
+          <input type="hidden" class="form-control" name="avatar" id="field_avatar" data-cy="avatar" formControlName="avatar" />
+          <input
+            type="hidden"
+            class="form-control"
+            name="avatarContentType"
+            id="field_avatarContentType"
+            formControlName="avatarContentType"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_user" jhiTranslate="pokeStockApp.userProfile.user">User</label>
+          <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
+            <option [ngValue]="null"></option>
+            @for (userOption of usersSharedCollection; track $index) {
+              <option [ngValue]="userOption">{{ userOption.login }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Guardar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

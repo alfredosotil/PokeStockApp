@@ -1,0 +1,180 @@
+<div>
+  <h2 id="page-heading" data-cy="CardHeading">
+    <span jhiTranslate="pokeStockApp.card.home.title">Cards</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="pokeStockApp.card.home.refreshListLabel">Refrescar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-card"
+        [routerLink]="['/card/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="pokeStockApp.card.home.createLabel">Crear nuevo Card</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error />
+
+  <jhi-alert />
+
+  @if (cards().length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="pokeStockApp.card.home.notFound">Ningún Cards encontrado</span>
+    </div>
+  } @else {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="tcgId">
+              <div class="d-flex">
+                <span jhiTranslate="pokeStockApp.card.tcgId">Tcg Id</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="setCode">
+              <div class="d-flex">
+                <span jhiTranslate="pokeStockApp.card.setCode">Set Code</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="number">
+              <div class="d-flex">
+                <span jhiTranslate="pokeStockApp.card.number">Number</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="name">
+              <div class="d-flex">
+                <span jhiTranslate="pokeStockApp.card.name">Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="rarity">
+              <div class="d-flex">
+                <span jhiTranslate="pokeStockApp.card.rarity">Rarity</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="superType">
+              <div class="d-flex">
+                <span jhiTranslate="pokeStockApp.card.superType">Super Type</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="types">
+              <div class="d-flex">
+                <span jhiTranslate="pokeStockApp.card.types">Types</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="imageUrl">
+              <div class="d-flex">
+                <span jhiTranslate="pokeStockApp.card.imageUrl">Image Url</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="legalities">
+              <div class="d-flex">
+                <span jhiTranslate="pokeStockApp.card.legalities">Legalities</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="set.code">
+              <div class="d-flex">
+                <span jhiTranslate="pokeStockApp.card.set">Set</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (card of cards(); track trackId(card)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/card', card.id, 'view']">{{ card.id }}</a>
+              </td>
+              <td>{{ card.tcgId }}</td>
+              <td>{{ card.setCode }}</td>
+              <td>{{ card.number }}</td>
+              <td>{{ card.name }}</td>
+              <td>{{ card.rarity }}</td>
+              <td>{{ card.superType }}</td>
+              <td>{{ card.types }}</td>
+              <td>{{ card.imageUrl }}</td>
+              <td>{{ card.legalities }}</td>
+              <td>
+                @if (card.set) {
+                  <div>
+                    <a [routerLink]="['/card-set', card.set.id, 'view']">{{ card.set.code }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/card', card.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">Vista</span>
+                  </a>
+
+                  <a [routerLink]="['/card', card.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Editar</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(card)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Eliminar</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (cards().length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page, totalItems, itemsPerPage }" />
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

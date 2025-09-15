@@ -1,0 +1,158 @@
+<div>
+  <h2 id="page-heading" data-cy="MarketPriceHeading">
+    <span jhiTranslate="pokeStockApp.marketPrice.home.title">Market Prices</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="pokeStockApp.marketPrice.home.refreshListLabel">Refrescar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-market-price"
+        [routerLink]="['/market-price/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="pokeStockApp.marketPrice.home.createLabel">Crear nuevo Market Price</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error />
+
+  <jhi-alert />
+
+  @if (marketPrices().length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="pokeStockApp.marketPrice.home.notFound">Ningún Market Prices encontrado</span>
+    </div>
+  } @else {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(sortState)]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="source">
+              <div class="d-flex">
+                <span jhiTranslate="pokeStockApp.marketPrice.source">Source</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="currency">
+              <div class="d-flex">
+                <span jhiTranslate="pokeStockApp.marketPrice.currency">Currency</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="priceLow">
+              <div class="d-flex">
+                <span jhiTranslate="pokeStockApp.marketPrice.priceLow">Price Low</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="priceMid">
+              <div class="d-flex">
+                <span jhiTranslate="pokeStockApp.marketPrice.priceMid">Price Mid</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="priceHigh">
+              <div class="d-flex">
+                <span jhiTranslate="pokeStockApp.marketPrice.priceHigh">Price High</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="lastUpdated">
+              <div class="d-flex">
+                <span jhiTranslate="pokeStockApp.marketPrice.lastUpdated">Last Updated</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="card.name">
+              <div class="d-flex">
+                <span jhiTranslate="pokeStockApp.marketPrice.card">Card</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (marketPrice of marketPrices(); track trackId(marketPrice)) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/market-price', marketPrice.id, 'view']">{{ marketPrice.id }}</a>
+              </td>
+              <td [jhiTranslate]="'pokeStockApp.MarketSource.' + (marketPrice.source ?? 'null')">
+                {{ { null: '', POKEMON_TCG_API: 'POKEMON_TCG_API', TCGPLAYER: 'TCGPLAYER' }[marketPrice.source ?? 'null'] }}
+              </td>
+              <td>{{ marketPrice.currency }}</td>
+              <td>{{ marketPrice.priceLow }}</td>
+              <td>{{ marketPrice.priceMid }}</td>
+              <td>{{ marketPrice.priceHigh }}</td>
+              <td>{{ marketPrice.lastUpdated | formatMediumDatetime }}</td>
+              <td>
+                @if (marketPrice.card) {
+                  <div>
+                    <a [routerLink]="['/card', marketPrice.card.id, 'view']">{{ marketPrice.card.name }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/market-price', marketPrice.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">Vista</span>
+                  </a>
+
+                  <a [routerLink]="['/market-price', marketPrice.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Editar</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(marketPrice)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Eliminar</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (marketPrices().length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page, totalItems, itemsPerPage }" />
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

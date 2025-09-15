@@ -1,0 +1,27 @@
+{
+  "pokeStockApp": {
+    "tradeItem": {
+      "home": {
+        "title": "Trade Items",
+        "refreshListLabel": "Refrescar lista",
+        "createLabel": "Crear nuevo Trade Item",
+        "createOrEditLabel": "Crear o editar Trade Item",
+        "notFound": "Ningún Trade Items encontrado"
+      },
+      "created": "Un nuevo Trade Item ha sido creado con el identificador {{ param }}",
+      "updated": "Un Trade Item ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Trade Item ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Trade Item {{ id }}?"
+      },
+      "detail": {
+        "title": "Trade Item"
+      },
+      "id": "ID",
+      "quantity": "Quantity",
+      "side": "Side",
+      "trade": "Trade",
+      "card": "Card"
+    }
+  }
+}

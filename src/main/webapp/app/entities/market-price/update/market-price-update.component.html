@@ -1,0 +1,125 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-market-price-heading"
+        data-cy="MarketPriceCreateUpdateHeading"
+        jhiTranslate="pokeStockApp.marketPrice.home.createOrEditLabel"
+      >
+        Crear o editar Market Price
+      </h2>
+
+      <div>
+        <jhi-alert-error />
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id" jhiTranslate="pokeStockApp.marketPrice.id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        @let sourceRef = editForm.get('source')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_source" jhiTranslate="pokeStockApp.marketPrice.source">Source</label>
+          <select class="form-control" name="source" formControlName="source" id="field_source" data-cy="source">
+            <option [ngValue]="null">{{ 'pokeStockApp.MarketSource.null' | translate }}</option>
+            @for (marketSource of marketSourceValues; track $index) {
+              <option [value]="marketSource">{{ 'pokeStockApp.MarketSource.' + marketSource | translate }}</option>
+            }
+          </select>
+          @if (sourceRef.invalid && (sourceRef.dirty || sourceRef.touched)) {
+            <div>
+              @if (editForm.get('source')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        @let currencyRef = editForm.get('currency')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_currency" jhiTranslate="pokeStockApp.marketPrice.currency">Currency</label>
+          <input type="text" class="form-control" name="currency" id="field_currency" data-cy="currency" formControlName="currency" />
+          @if (currencyRef.invalid && (currencyRef.dirty || currencyRef.touched)) {
+            <div>
+              @if (editForm.get('currency')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_priceLow" jhiTranslate="pokeStockApp.marketPrice.priceLow">Price Low</label>
+          <input type="number" class="form-control" name="priceLow" id="field_priceLow" data-cy="priceLow" formControlName="priceLow" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_priceMid" jhiTranslate="pokeStockApp.marketPrice.priceMid">Price Mid</label>
+          <input type="number" class="form-control" name="priceMid" id="field_priceMid" data-cy="priceMid" formControlName="priceMid" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_priceHigh" jhiTranslate="pokeStockApp.marketPrice.priceHigh">Price High</label>
+          <input type="number" class="form-control" name="priceHigh" id="field_priceHigh" data-cy="priceHigh" formControlName="priceHigh" />
+        </div>
+
+        @let lastUpdatedRef = editForm.get('lastUpdated')!;
+        <div class="mb-3">
+          <label class="form-label" for="field_lastUpdated" jhiTranslate="pokeStockApp.marketPrice.lastUpdated">Last Updated</label>
+          <div class="d-flex">
+            <input
+              id="field_lastUpdated"
+              data-cy="lastUpdated"
+              type="datetime-local"
+              class="form-control"
+              name="lastUpdated"
+              formControlName="lastUpdated"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          @if (lastUpdatedRef.invalid && (lastUpdatedRef.dirty || lastUpdatedRef.touched)) {
+            <div>
+              @if (editForm.get('lastUpdated')?.errors?.required) {
+                <small class="form-text text-danger" jhiTranslate="entity.validation.required">Este campo es obligatorio.</small>
+              }
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('lastUpdated')?.errors?.datetimelocal"
+                jhiTranslate="entity.validation.datetimelocal"
+                >Este campo debe ser una fecha y hora.</small
+              >
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_card" jhiTranslate="pokeStockApp.marketPrice.card">Card</label>
+          <select class="form-control" id="field_card" data-cy="card" name="card" formControlName="card" [compareWith]="compareCard">
+            <option [ngValue]="null"></option>
+            @for (cardOption of cardsSharedCollection; track $index) {
+              <option [ngValue]="cardOption">{{ cardOption.name }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Guardar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

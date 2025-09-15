@@ -1,0 +1,12 @@
+{
+  "pokeStockApp": {
+    "TradeStatus": {
+      "null": "",
+      "PROPOSED": "PROPOSED",
+      "ACCEPTED": "ACCEPTED",
+      "REJECTED": "REJECTED",
+      "CANCELLED": "CANCELLED",
+      "COMPLETED": "COMPLETED"
+    }
+  }
+}
