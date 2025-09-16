@@ -1,6 +1,7 @@
 package com.poke.app.service.dto;
 
 import com.poke.app.domain.User;
+import java.io.Serial;
 import java.io.Serializable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,6 +19,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class UserDTO implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private Long id;

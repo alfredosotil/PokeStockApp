@@ -4,6 +4,7 @@ import com.poke.app.config.Constants;
 import com.poke.app.domain.Authority;
 import com.poke.app.domain.User;
 import jakarta.validation.constraints.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Set;
@@ -22,6 +23,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class AdminUserDTO implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private Long id;
