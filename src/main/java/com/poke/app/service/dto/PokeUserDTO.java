@@ -17,6 +17,7 @@ import lombok.ToString;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class PokeUserDTO implements Serializable {
 
+    @EqualsAndHashCode.Include
     private Long id;
 
     @NotNull
@@ -26,8 +27,8 @@ public class PokeUserDTO implements Serializable {
 
     private UserDTO user;
 
-    @EqualsAndHashCode.Include
-    private Object equalityIdentifier() {
-        return id != null ? id : System.identityHashCode(this);
+    @EqualsAndHashCode.Include(replaces = "id")
+    private IdEquality idEquality() {
+        return IdEquality.of(this.id);
     }
 }
