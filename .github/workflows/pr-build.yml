@@ -22,8 +22,8 @@ jobs:
           java-version: '21'     # o 17 según tu proyecto
           cache: maven
 
-      # (Opcional) instala una versión exacta de Maven
-      - uses: s4u/setup-maven-action@v1
+      - name: Set up Maven 3.9.9
+        uses: stCarolas/setup-maven@v5
         with:
           maven-version: '3.9.9'
 
