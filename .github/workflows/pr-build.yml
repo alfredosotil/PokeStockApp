@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '21'     # o 17 según tu proyecto
+          java-version: '17'
           cache: maven
 
       - name: Set up Maven 3.9.9
@@ -65,3 +65,23 @@ jobs:
         with:
           name: app-jar
           path: target/*.jar
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Maven settings (Central)
+        run: |
+          mkdir -p ~/.m2
+          cp -f $GITHUB_WORKSPACE/.github/mvn-settings.xml ~/.m2/settings.xml 2>/dev/null || true
+
+      # Ejecuta tests usando SOLO el cache restaurado (equivalente a offline)
+      - name: Run tests (use cache only)
+        run: mvn -B -DskipITs test
