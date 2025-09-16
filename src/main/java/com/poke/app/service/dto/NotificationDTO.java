@@ -20,6 +20,7 @@ import lombok.ToString;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class NotificationDTO implements Serializable {
 
+    @EqualsAndHashCode.Include
     private Long id;
 
     @NotNull
@@ -41,8 +42,8 @@ public class NotificationDTO implements Serializable {
 
     private UserDTO recipient;
 
-    @EqualsAndHashCode.Include
-    private Object equalityIdentifier() {
-        return id != null ? id : System.identityHashCode(this);
+    @EqualsAndHashCode.Include(replaces = "id")
+    private IdEquality idEquality() {
+        return IdEquality.of(this.id);
     }
 }

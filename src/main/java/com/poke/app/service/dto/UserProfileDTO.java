@@ -18,6 +18,7 @@ import lombok.ToString;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class UserProfileDTO implements Serializable {
 
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Size(max = 1000)
@@ -36,8 +37,8 @@ public class UserProfileDTO implements Serializable {
 
     private UserDTO user;
 
-    @EqualsAndHashCode.Include
-    private Object equalityIdentifier() {
-        return id != null ? id : System.identityHashCode(this);
+    @EqualsAndHashCode.Include(replaces = "id")
+    private IdEquality idEquality() {
+        return IdEquality.of(this.id);
     }
 }
