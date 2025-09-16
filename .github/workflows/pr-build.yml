@@ -77,6 +77,11 @@ jobs:
           java-version: '17'
           cache: maven
 
+      - name: Set up Maven 3.9.9
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: '3.9.9'
+
       - name: Maven settings (Central)
         run: |
           mkdir -p ~/.m2
