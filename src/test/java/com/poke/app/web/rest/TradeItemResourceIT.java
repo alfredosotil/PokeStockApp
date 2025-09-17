@@ -16,19 +16,18 @@ import com.poke.app.service.TradeItemService;
 import com.poke.app.service.dto.TradeItemDTO;
 import com.poke.app.service.mapper.TradeItemMapper;
 import jakarta.persistence.EntityManager;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -61,14 +60,11 @@ class TradeItemResourceIT {
     @Autowired
     private TradeItemRepository tradeItemRepository;
 
-    @Mock
-    private TradeItemRepository tradeItemRepositoryMock;
-
     @Autowired
     private TradeItemMapper tradeItemMapper;
 
-    @Mock
-    private TradeItemService tradeItemServiceMock;
+    @SpyBean
+    private TradeItemService tradeItemService;
 
     @Autowired
     private EntityManager em;
@@ -111,6 +107,7 @@ class TradeItemResourceIT {
             tradeItemRepository.delete(insertedTradeItem);
             insertedTradeItem = null;
         }
+        Mockito.reset(tradeItemService);
     }
 
     @Test
@@ -205,21 +202,24 @@ class TradeItemResourceIT {
             .andExpect(jsonPath("$.[*].side").value(hasItem(DEFAULT_SIDE)));
     }
 
-    @SuppressWarnings({ "unchecked" })
+    @Test
     void getAllTradeItemsWithEagerRelationshipsIsEnabled() throws Exception {
-        when(tradeItemServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+        doReturn(Collections.emptyList()).when(tradeItemService).findAllWithEagerRelationships();
 
         restTradeItemMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
 
-        verify(tradeItemServiceMock, times(1)).findAllWithEagerRelationships(any());
+        verify(tradeItemService, times(1)).findAllWithEagerRelationships();
+        verify(tradeItemService, never()).findAll();
     }
 
-    @SuppressWarnings({ "unchecked" })
+    @Test
     void getAllTradeItemsWithEagerRelationshipsIsNotEnabled() throws Exception {
-        when(tradeItemServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+        doReturn(Collections.emptyList()).when(tradeItemService).findAll();
 
         restTradeItemMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
-        verify(tradeItemRepositoryMock, times(1)).findAll(any(Pageable.class));
+
+        verify(tradeItemService, times(1)).findAll();
+        verify(tradeItemService, never()).findAllWithEagerRelationships();
     }
 
     @Test
