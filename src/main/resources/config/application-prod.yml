@@ -121,4 +121,8 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+  market:
+    pokemon-tcg:
+      base-url: ${POKEMON_TCG_API_BASE_URL:https://api.pokemontcg.io}
+      api-key: ${POKEMON_TCG_API_KEY:}
