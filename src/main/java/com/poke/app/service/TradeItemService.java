@@ -95,6 +95,21 @@ public class TradeItemService {
      *
      * @return the list of entities.
      */
+    @Transactional(readOnly = true)
+    public List<TradeItemDTO> findAllWithEagerRelationships() {
+        LOG.debug("Request to get all TradeItems with eager relationships");
+        return tradeItemRepository
+            .findAllWithEagerRelationships()
+            .stream()
+            .map(tradeItemMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    /**
+     * Get all the tradeItems with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
     public Page<TradeItemDTO> findAllWithEagerRelationships(Pageable pageable) {
         return tradeItemRepository.findAllWithEagerRelationships(pageable).map(tradeItemMapper::toDto);
     }
