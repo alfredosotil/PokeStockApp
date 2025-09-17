@@ -27,14 +27,16 @@ public interface TradeItemRepository extends JpaRepository<TradeItem, Long> {
     }
 
     @Query(
-        value = "select tradeItem from TradeItem tradeItem left join fetch tradeItem.card",
+        value = "select tradeItem from TradeItem tradeItem left join fetch tradeItem.trade left join fetch tradeItem.card",
         countQuery = "select count(tradeItem) from TradeItem tradeItem"
     )
     Page<TradeItem> findAllWithToOneRelationships(Pageable pageable);
 
-    @Query("select tradeItem from TradeItem tradeItem left join fetch tradeItem.card")
+    @Query("select tradeItem from TradeItem tradeItem left join fetch tradeItem.trade left join fetch tradeItem.card")
     List<TradeItem> findAllWithToOneRelationships();
 
-    @Query("select tradeItem from TradeItem tradeItem left join fetch tradeItem.card where tradeItem.id =:id")
+    @Query(
+        "select tradeItem from TradeItem tradeItem left join fetch tradeItem.trade left join fetch tradeItem.card where tradeItem.id =:id"
+    )
     Optional<TradeItem> findOneWithToOneRelationships(@Param("id") Long id);
 }
