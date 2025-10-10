@@ -12,6 +12,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class ApplicationProperties {
 
     private final Liquibase liquibase = new Liquibase();
+    private final PokemonTcg pokemonTcg = new PokemonTcg();
 
     // jhipster-needle-application-properties-property
 
@@ -20,6 +21,10 @@ public class ApplicationProperties {
     }
 
     // jhipster-needle-application-properties-property-getter
+
+    public PokemonTcg getPokemonTcg() {
+        return pokemonTcg;
+    }
 
     public static class Liquibase {
 
@@ -33,5 +38,29 @@ public class ApplicationProperties {
             this.asyncStart = asyncStart;
         }
     }
+
     // jhipster-needle-application-properties-property-class
+
+    public static class PokemonTcg {
+
+        private String baseUrl = "https://api.pokemontcg.io/v2";
+
+        private String apiKey;
+
+        public String getBaseUrl() {
+            return baseUrl;
+        }
+
+        public void setBaseUrl(String baseUrl) {
+            this.baseUrl = baseUrl;
+        }
+
+        public String getApiKey() {
+            return apiKey;
+        }
+
+        public void setApiKey(String apiKey) {
+            this.apiKey = apiKey;
+        }
+    }
 }
