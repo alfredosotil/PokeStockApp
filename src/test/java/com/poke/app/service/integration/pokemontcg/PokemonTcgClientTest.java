@@ -41,7 +41,9 @@ class PokemonTcgClientTest {
 
     @Test
     void getCardByIdShouldReturnCardInformationWithPrices() throws Exception {
-        mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody(successfulResponse()));
+        mockWebServer.enqueue(
+            new MockResponse().setResponseCode(200).setHeader("Content-Type", "application/json").setBody(successfulResponse())
+        );
 
         Optional<PokemonTcgCardDto> result = pokemonTcgClient.getCardById("swsh4-1");
 
