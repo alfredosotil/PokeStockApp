@@ -93,9 +93,10 @@ management:
 spring:
   application:
     name: PokeStockApp
-    pokemon-tcg:
-      base-url: https://api.pokemontcg.io/v2
-      api-key: ${POKEMON_TCG_API_KEY:}
+application:
+  pokemon-tcg:
+    base-url: https://api.pokemontcg.io/v2
+    api-key: ${POKEMON_TCG_API_KEY:}
   docker:
     compose:
       enabled: true
