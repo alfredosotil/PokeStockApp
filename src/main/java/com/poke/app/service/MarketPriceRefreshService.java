@@ -68,12 +68,12 @@ public class MarketPriceRefreshService {
         try {
             Optional<PokemonTcgCardDto> maybeCard = pokemonTcgClient.getCardById(card.getTcgId());
 
-            if (maybeCard.isEmpty()) {
+            PokemonTcgCardDto cardDto = maybeCard.orElse(null);
+
+            if (cardDto == null) {
                 LOG.debug("Card {} not found in Pokemon TCG API", card.getTcgId());
                 return;
             }
-
-            PokemonTcgCardDto cardDto = maybeCard.get();
             PokemonTcgCardPriceDto priceDto = cardDto.getPrice();
 
             if (priceDto == null) {
