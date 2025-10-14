@@ -1,11 +1,13 @@
 package com.poke.app.repository;
 
 import com.poke.app.domain.MarketPrice;
+import com.poke.app.domain.enumeration.MarketSource;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -37,4 +39,6 @@ public interface MarketPriceRepository extends JpaRepository<MarketPrice, Long> 
 
     @Query("select marketPrice from MarketPrice marketPrice left join fetch marketPrice.card where marketPrice.id =:id")
     Optional<MarketPrice> findOneWithToOneRelationships(@Param("id") Long id);
+
+    Optional<MarketPrice> findByCard_IdAndSource(Long cardId, MarketSource source);
 }
